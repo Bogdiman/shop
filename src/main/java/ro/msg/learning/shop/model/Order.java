@@ -6,9 +6,10 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "ORDERR")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @ManyToOne(cascade = CascadeType.ALL)
     private Location shippedFrom;

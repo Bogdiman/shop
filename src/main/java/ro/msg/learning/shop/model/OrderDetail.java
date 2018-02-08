@@ -14,5 +14,6 @@ public class OrderDetail {
     private Order order;
     @ManyToOne(cascade = CascadeType.ALL)
     private Product product;
+    @Column(name = "QUANTITY")
     private int quantity;
 }

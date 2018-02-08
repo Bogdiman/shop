@@ -11,12 +11,16 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "NAME")
     private String name;
+    @Column(name = "DESCRIPTION")
     private String description;
+    @Column(name = "PRICE")
     private BigDecimal price;
+    @Column(name = "WEIGHT")
     private double weight;
     @ManyToOne(cascade = CascadeType.ALL)
-    private ProductCategory category;
+    private ProductCategory productCategory;
     @ManyToOne(cascade = CascadeType.ALL)
     private Supplier supplier;
 }

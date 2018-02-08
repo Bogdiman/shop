@@ -12,4 +12,8 @@ public class Stock {
     private int id;
     @ManyToOne(cascade = CascadeType.ALL)
     private Location location;
+    @Column(name = "QUANTITY")
+    private int quantity;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Product product;
 }
