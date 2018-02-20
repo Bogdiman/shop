@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface StockRepository extends JpaRepository<Stock, Integer> {
     List<Stock> findByProductIdAndQuantityIsGreaterThanEqual(int id, int minimumQuantity);
+    Stock findByProductIdAndLocationId(int prodId, int locId);
+    List<Stock> findByLocationId(int locId);
 }

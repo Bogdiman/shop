@@ -16,4 +16,8 @@ public class Stock {
     private int quantity;
     @ManyToOne(cascade = CascadeType.ALL)
     private Product product;
+
+    public String toCsvFormat() {
+        return this.id + "," + this.product.getName() + "," + this.quantity;
+    }
 }

@@ -12,6 +12,7 @@ import ro.msg.learning.shop.repository.LocationRepository;
 import ro.msg.learning.shop.repository.StockRepository;
 import ro.msg.learning.shop.utils.LocationStrategy;
 
+import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ public class LocationSelectionStrategy {
     @Value("${location.strategy}")
     private LocationStrategy strategy;
 
+    @Transactional
     public Location findSuitableLocation(OrderRequestDTO request) throws Exception {
         // Replace with a switch when multiple strategies are possible. See this.strategy
         return findFirstStrategy(request);

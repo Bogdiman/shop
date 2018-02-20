@@ -3,16 +3,12 @@ package ro.msg.learning.shop.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.config.LocationSelectionStrategy;
-import ro.msg.learning.shop.model.Location;
-import ro.msg.learning.shop.model.Order;
-import ro.msg.learning.shop.model.OrderDetail;
-import ro.msg.learning.shop.model.Product;
+import ro.msg.learning.shop.model.*;
 import ro.msg.learning.shop.model.dto.OrderRequestDTO;
 import ro.msg.learning.shop.model.dto.ProductRequestDTO;
-import ro.msg.learning.shop.repository.CustomerRepository;
-import ro.msg.learning.shop.repository.OrderDetailRepository;
-import ro.msg.learning.shop.repository.OrderRepository;
-import ro.msg.learning.shop.repository.ProductRepository;
+import ro.msg.learning.shop.repository.*;
+
+import javax.transaction.Transactional;
 
 @Service
 public class OrderService {
@@ -25,10 +21,13 @@ public class OrderService {
     @Autowired
     private StockService stockService;
     @Autowired
+    private StockRepository stockRepository;
+    @Autowired
     private OrderDetailRepository orderDetailRepository;
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Transactional
     public Order createOrder(OrderRequestDTO request) throws Exception {
         Location location = locationStrategy.findSuitableLocation(request);
 
@@ -44,9 +43,16 @@ public class OrderService {
             orderDetail.setProduct(productEntity);
             orderDetail.setQuantity(prod.getQuantity());
 
+            removeProductsFromStock(location, productEntity, prod.getQuantity());
             orderDetailRepository.save(orderDetail);
         }
 
+
         return newOrder;
+    }
+
+    private void removeProductsFromStock(Location location, Product productEntity, int quantity) {
+        Stock stock = stockRepository.findByProductIdAndLocationId(productEntity.getId(), location.getId());
+        stockService.subtractQuantityFromStock(stock.getId(), quantity);
     }
 }
